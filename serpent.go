@@ -35,6 +35,13 @@ func NewCipher(key []byte) (cipher.Block, error) {
 // The 132 32 bit subkeys of serpent
 type subkeys [132]uint32
 
+// Zero wipes the expanded key schedule. After Zero the cipher must not be reused.
+func (s *subkeys) Zero() {
+	for i := range s {
+		s[i] = 0
+	}
+}
+
 func (s *subkeys) BlockSize() int { return BlockSize }
 
 func (s *subkeys) Encrypt(dst, src []byte) {
